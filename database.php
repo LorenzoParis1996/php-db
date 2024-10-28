@@ -14,4 +14,13 @@ if ($conn->connect_error) {
 
 echo "Connection successful";
 
+//create db
+$sql = "CREATE DATABASE myDB";
+
+if ($conn->query($sql) === true) {
+    echo "Db creation successful";
+} else {
+    echo "Error creating db: " . $conn->connect_error; 
+}
+
 ?>
