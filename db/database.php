@@ -43,50 +43,66 @@ if ($conn->query($users_table) === true) {
     echo "Error creating table: " . $conn->connect_error;
 }
 
-//path to log file
-$log_file = 'inserted_users.log';
+// //path to log file
+// $log_file = 'inserted_users.log';
 
-//read existing entries from log file
-$existing_entries = [];
+// //read existing entries from log file
+// $existing_entries = [];
 
-if (file_exists($log_file)) {
-    $existing_entries = file($log_file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-}
+// if (file_exists($log_file)) {
+//     $existing_entries = file($log_file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+// }
 
 $users_data = [
-    ['Alice', 'Johnson', 28, '1996-03-15'],
-    ['Brian', 'Smith', 34, '1990-07-22'],
-    ['Clara', 'Davis', 22, '2002-11-05'],
-    ['David', 'Brown', 45, '1978-01-30'],
-    ['Emma', 'Wilson', 31, '1993-09-12'],
-    ['Frank', 'Miller', 29, '1995-05-20'],
-    ['Grace', 'Taylor', 40, '1984-02-18'],
-    ['Henry', 'Anderson', 27, '1997-08-25'],
-    ['Isabella', 'Thomas', 36, '1988-04-10'],
-    ['Jack', 'Jackson', 50, '1974-12-01'],
-    ['Jack', 'Daniels', 20, '2004-06-28'],
+    [1, 'Alice', 'Johnson', 28, '1996-03-15'],
+    [2, 'Brian', 'Smith', 34, '1990-07-22'],
+    [3, 'Clara', 'Davis', 22, '2002-11-05'],
+    [4, 'David', 'Brown', 45, '1978-01-30'],
+    [5, 'Emma', 'Wilson', 31, '1993-09-12'],
+    [6, 'Frank', 'Miller', 29, '1995-05-20'],
+    [7, 'Grace', 'Taylor', 40, '1984-02-18'],
+    [8, 'Henry', 'Anderson', 27, '1997-08-25'],
+    [9, 'Isabella', 'Thomas', 36, '1988-04-10'],
+    [10, 'Jack', 'Jackson', 50, '1974-12-01'],
+    [11, 'Jack', 'Daniels', 20, '2004-06-28'],
     //['David', 'Brown', 78, '1946-03-20']
 ];
 
 foreach ($users_data as $user) {
     $full_name = $user[0] . '' . $user[1];
 
-    if (!in_array($full_name, $existing_entries)) {
-        $insert_statement = $conn->prepare("INSERT INTO users (firstname, lastname, age, birth_date) VALUES(?,?,?,?)");
-        $insert_statement->bind_param("ssis", $user[0], $user[1], $user[2], $user[3]);
+    $insert_statement = $conn->prepare("
+    INSERT INTO users (id, firstname, lastname, age, birth_date)
+    VALUES(?, ?, ?, ?, ?)
+    ON DUPLICATE KEY UPDATE
+        id = ?,
+        firstname = ?,
+        lastname = ?,
+        age = ?,
+        birth_date = ?
+    ");
 
-        if($insert_statement->execute()) {
-            echo "Inserted: {$full_name}<br>";
-            file_put_contents($log_file, $full_name . PHP_EOL, FILE_APPEND);
-        } else {
-            echo "Error inserting: {$full_name} - " . $insert_statement->error . "<br>";
-        }
+    /*types: A string that specifies the types of the variables being bound. Each character in this string corresponds to a variable:
 
-        $insert_statement->close();
-  
-    }  else {
-        echo "Duplicate found: {$full_name}, not inserted.<br>";
+    i: integer
+    d: double
+    s: string
+    b: blob*/
+
+
+    $insert_statement->bind_param("issisissis",
+        $user[0], $user[1], $user[2], $user[3], $user[4],
+        $user[0], $user[1], $user[2], $user[3], $user[4],
+    );
+
+    if($insert_statement->execute()) {
+        echo "Inserted: {$full_name}<br>";
+        // file_put_contents($log_file, $full_name . PHP_EOL, FILE_APPEND);
+    } else {
+        echo "Error inserting: {$full_name} - " . $insert_statement->error . "<br>";
     }
+
+    $insert_statement->close();
 }
 
 ?>
