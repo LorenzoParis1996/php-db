@@ -88,5 +88,3 @@ foreach ($users_data as $user) {
 }
 
 ?>
-
-<h2>insert</h2>
