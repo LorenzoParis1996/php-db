@@ -63,7 +63,9 @@ $users_data = [
     ['Grace', 'Taylor', 40, '1984-02-18'],
     ['Henry', 'Anderson', 27, '1997-08-25'],
     ['Isabella', 'Thomas', 36, '1988-04-10'],
-    ['Jack', 'Jackson', 50, '1974-12-01']
+    ['Jack', 'Jackson', 50, '1974-12-01'],
+    ['Jack', 'Daniels', 20, '2004-06-28'],
+    //['David', 'Brown', 78, '1946-03-20']
 ];
 
 foreach ($users_data as $user) {
