@@ -24,7 +24,10 @@ $result = $conn->query($db);
 
 <body>
     <section class="container">
-        <h2>Entries</h2>
+        <div class="d-flex justify-content-between">
+            <h2>Entries</h2>
+            <a href="./form.php">Add new record</a>
+        </div>
         <table class="table">
             <thead>
                 <tr>
