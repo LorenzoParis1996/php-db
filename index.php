@@ -3,33 +3,6 @@
 
 ob_start();
 include './db/database.php';
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    $firstname = trim($_POST['firstname']);
-    $lastname = trim($_POST['lastname']);
-    $age = (int)$_POST['age']; 
-    $birth_date = trim($_POST['birth_date']);
-
-    $insert_statement = $conn->prepare("
-    INSERT INTO users (firstname, lastname, age, birth_date)
-    VALUES (?, ?, ?, ?)");
-
-     $insert_statement->bind_param("ssis", $firstname, $lastname, $age, $birth_date);
-
-
-    if ($insert_statement->execute()) {
-    echo "New record created successfully<br>";
-    header("Location: index.php");
-    exit;
-    } else {
-    echo "Error: " . $insert_statement->error . "<br>";
-    }
-
-
-    $insert_statement->close();
-}
-
 $output = ob_get_clean();
 
 $db = "SELECT * FROM users";
