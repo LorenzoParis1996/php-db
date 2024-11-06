@@ -27,13 +27,14 @@ $result = $conn->query($db);
             <h2>Entries</h2>
             <a href="./form.php">Add new record</a>
         </div>
-        <table class="table">
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th scope="col">Firstname</th>
                     <th scope="col">Lastname</th>
                     <th scope="col">Age</th>
                     <th scope="col">Birth date</th>
+                    <th scope="col">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -47,6 +48,11 @@ $result = $conn->query($db);
                     <td><?php echo htmlspecialchars($user["lastname"]); ?></td>
                     <td><?php echo htmlspecialchars($user["age"]); ?></td>
                     <td><?php echo htmlspecialchars($user["birth_date"]); ?></td>
+                    <td><a class="btn btn-success btn-sm"
+                            href="./show.php?id=<?php echo htmlspecialchars($user['id']); ?>">Show</a>
+                        <a class="btn btn-primary btn-sm"
+                            href="./edit.php?id=<?php echo htmlspecialchars($user['id']); ?>">Edit</a>
+                    </td>
                 </tr>
                 <?php endforeach; ?>
                 <?php else: ?>
