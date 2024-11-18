@@ -29,6 +29,9 @@ if(isset($_GET['id'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    
+
+    //$userId = intval($_POST['id']);
 
     $firstname = trim($_POST['firstname']);
     $lastname = trim($_POST['lastname']);
@@ -109,6 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     <input type="date" class="form-control" id="date" name="birth_date"
                         value="<?php echo htmlspecialchars($birth_date ?? ''); ?>" placeholder="YYYY-MM-DD">
                 </div>
+                <input type="hidden" name="id" value="<?php echo $userId; ?>">
                 <button type="submit" class="btn btn-primary btn-sm">Update record</button>
             </form>
         </div>
